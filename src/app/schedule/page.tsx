@@ -20,7 +20,6 @@ import { FloatingParticles } from "@/components/ui/floating-particles";
 import { bookingSchema, type BookingFormData } from "@/validations/booking";
 import { createBooking } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
-import { sendBookingEmail } from "@/lib/resend";
 
 const tattooStyles = [
   "Blackwork",
