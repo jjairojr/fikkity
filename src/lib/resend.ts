@@ -8,9 +8,6 @@ const resend = new Resend(process.env.RESEND_API_KEY!);
 export const sendBookingEmail = async (
   bookingData: z.infer<typeof bookingSchema>,
 ) => {
-  console.log("Tentando enviar email...");
-  console.log("API Key existe:", !!process.env.RESEND_API_KEY);
-
   try {
     const emailData = {
       from: "onboarding@resend.dev", // ← Teste sem nome
@@ -19,8 +16,6 @@ export const sendBookingEmail = async (
       html: createBookingEmailTemplate(bookingData),
     };
 
-    console.log("Dados do email:", emailData);
-
     const { data, error } = await resend.emails.send(emailData);
 
     if (error) {
@@ -28,7 +23,6 @@ export const sendBookingEmail = async (
       throw error;
     }
 
-    console.log("Email enviado com sucesso:", data);
     return data;
   } catch (error) {
     console.error("Erro no envio:", error);

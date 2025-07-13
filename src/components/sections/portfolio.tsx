@@ -62,7 +62,11 @@ export function Portfolio() {
   };
 
   return (
-    <section className="py-20 px-8" aria-label="Portfólio de tatuagens FIKKITY">
+    <section
+      className="py-20 px-8"
+      aria-label="Portfólio de tatuagens FIKKITY"
+      id="portfolio"
+    >
       <div className="max-w-6xl mx-auto">
         <header className="text-center mb-16">
           <h2 className="text-3xl font-thin tracking-[6px] font-mono mb-4 text-white">
@@ -117,9 +121,8 @@ export function Portfolio() {
 
           <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-3">
             {portfolioImageDetails.map((_, index) => (
-              <button
+              <div
                 key={index}
-                onClick={() => setCurrentSlide(index)}
                 aria-label={`Ver imagem ${index + 1}`}
                 className={`w-2 h-2 transition-all duration-300 ${
                   index === currentSlide

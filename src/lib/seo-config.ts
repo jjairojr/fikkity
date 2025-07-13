@@ -2,8 +2,8 @@ export const BUSINESS_INFO = {
   name: "FIKKITY",
   fullName: "FIKKITY - Tatuadora",
   description: "Tatuadora especializada em Blackwork, Fine Line e Oriental",
-  phone: "+5562999999999", // Substitua pelo seu número
-  instagram: "https://instagram.com/fikkity_tattoo",
+  phone: "+5562993210587",
+  instagram: "https://instagram.com/fikkity.tattoo",
   whatsapp: "https://wa.me/5562999999999",
   cities: ["Goiânia", "Curitiba", "São Paulo"],
   studio: "Liv Art Studio",

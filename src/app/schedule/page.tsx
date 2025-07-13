@@ -8,8 +8,6 @@ import {
   Calendar,
   User,
   MapPin,
-  Upload,
-  X,
   Check,
   AlertCircle,
   ArrowLeft,
@@ -19,26 +17,24 @@ import {
 import { FloatingParticles } from "@/components/ui/floating-particles";
 import { bookingSchema, type BookingFormData } from "@/validations/booking";
 import { createBooking } from "@/lib/supabase";
-import { useRouter } from "next/navigation";
 
 const tattooStyles = [
   "Blackwork",
   "Fine Line",
   "Oriental",
-  "Realismo",
-  "Old School",
-  "New School",
-  "Tribal",
-  "Geometric",
+  "Cyber Tribal",
+  "Body Suit",
+  "Outro",
 ];
 
 const bodyParts = [
   "Braço",
   "Antebraço",
-  "Pulso",
   "Mão",
   "Peito",
+  "Costela",
   "Costas",
+  "Glúteos",
   "Perna",
   "Coxa",
   "Panturrilha",
@@ -68,13 +64,13 @@ const locations = [
   {
     value: "goiania",
     label: "Goiânia - Liv Art Studio",
-    address: "Setor Bueno",
+    address: "Setor Pedro Ludovico",
   },
-  { value: "curitiba", label: "Curitiba - Studio Parceiro", address: "Centro" },
+  { value: "curitiba", label: "Curitiba - Liv Art Studio", address: "Mercês" },
   {
     value: "saopaulo",
-    label: "São Paulo - Studio Parceiro",
-    address: "Vila Madalena",
+    label: "São Paulo - Liv Art Studio",
+    address: "Brooklin",
   },
 ];
 
@@ -89,9 +85,6 @@ export default function BookingPage() {
   const cursorRef = useRef<HTMLDivElement>(null);
   const totalSteps = 4;
 
-  const router = useRouter();
-
-  // React Hook Form setup
   const {
     control,
     handleSubmit,
@@ -101,8 +94,8 @@ export default function BookingPage() {
     formState: { errors },
   } = useForm<BookingFormData>({
     resolver: zodResolver(bookingSchema),
-    mode: "onBlur",
-    reValidateMode: "onBlur",
+    mode: "onSubmit",
+    reValidateMode: "onChange",
     defaultValues: {
       name: "",
       email: "",
@@ -157,7 +150,6 @@ export default function BookingPage() {
     return await trigger(fields);
   };
 
-  // Navegação entre steps
   const nextStep = async (e?: React.MouseEvent) => {
     e?.preventDefault();
     e?.stopPropagation();
@@ -174,7 +166,6 @@ export default function BookingPage() {
     }
   };
 
-  // Upload de arquivos
   const handleFileUpload = (files: FileList | null) => {
     if (!files) return;
 
@@ -191,7 +182,6 @@ export default function BookingPage() {
     setValue("referenceImages", updatedImages);
   };
 
-  // Drag and drop handlers
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -209,14 +199,13 @@ export default function BookingPage() {
     handleFileUpload(e.dataTransfer.files);
   };
 
-  // Submit do formulário
   const onSubmit = async (data: BookingFormData) => {
     setIsSubmitting(true);
 
     try {
       const booking = await createBooking(data);
 
-      const emailResponse = await fetch("/api/send-booking-email", {
+      await fetch("/api/send-booking-email", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -224,14 +213,7 @@ export default function BookingPage() {
         body: JSON.stringify(booking),
       });
 
-      console.log("Agendamento criado:", booking);
-      console.log("Email enviado:", emailResponse);
-
       setSubmitSuccess(true);
-
-      setTimeout(() => {
-        router.replace("/");
-      }, 2000);
     } catch (error) {
       console.error("Erro ao enviar:", error);
     } finally {
@@ -239,7 +221,6 @@ export default function BookingPage() {
     }
   };
 
-  // Componente de campo com erro
   const FormField = ({
     children,
     error,
@@ -265,7 +246,6 @@ export default function BookingPage() {
     </div>
   );
 
-  // Tela de sucesso
   if (submitSuccess) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center px-8">
@@ -297,7 +277,6 @@ export default function BookingPage() {
     <>
       <div className="relative z-10 min-h-screen py-20 px-8">
         <div className="max-w-4xl mx-auto">
-          {/* Header */}
           <div className="text-center mb-16">
             <Link
               href="/"
@@ -318,7 +297,6 @@ export default function BookingPage() {
             </p>
           </div>
 
-          {/* Progress Bar */}
           <div className="mb-12">
             <div className="flex justify-between items-center mb-4">
               {Array.from({ length: totalSteps }, (_, i) => (
@@ -348,7 +326,6 @@ export default function BookingPage() {
             </div>
           </div>
 
-          {/* Form */}
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
             <div className="bg-black/40 backdrop-blur-sm border border-gray-800 p-8 rounded-lg">
               {/* Step 1: Dados Pessoais */}
@@ -620,78 +597,76 @@ export default function BookingPage() {
                         <textarea
                           {...field}
                           className="w-full bg-black/50 border border-gray-700 focus:border-red-500 px-4 py-3 text-white placeholder-gray-500 transition-all duration-300 font-mono text-sm h-32 resize-none"
-                          placeholder="Descreva sua ideia de tatuagem, inspirações, elementos que gostaria de incluir..."
+                          placeholder="Descreva o que imagina para sua tattoo. Referências, significados, história, inspirações, elementos..."
                         />
                       )}
                     />
                   </FormField>
 
-                  {/* Upload de Referências */}
-                  <div>
-                    <label className="block text-sm font-mono tracking-[2px] text-gray-400 mb-4">
-                      IMAGENS DE REFERÊNCIA (Opcional)
-                    </label>
+                  {/* <div> */}
+                  {/*   <label className="block text-sm font-mono tracking-[2px] text-gray-400 mb-4"> */}
+                  {/*     IMAGENS DE REFERÊNCIA (Opcional) */}
+                  {/*   </label> */}
+                  {/**/}
+                  {/*   <div */}
+                  {/*     className={`border-2 border-dashed transition-all duration-300 p-8 text-center ${ */}
+                  {/*       dragActive */}
+                  {/*         ? "border-red-500 bg-red-500/10" */}
+                  {/*         : "border-gray-700 hover:border-gray-600" */}
+                  {/*     }`} */}
+                  {/*     onDragEnter={handleDrag} */}
+                  {/*     onDragLeave={handleDrag} */}
+                  {/*     onDragOver={handleDrag} */}
+                  {/*     onDrop={handleDrop} */}
+                  {/*   > */}
+                  {/*     <Upload */}
+                  {/*       className="mx-auto mb-4 text-gray-500" */}
+                  {/*       size={32} */}
+                  {/*     /> */}
+                  {/*     <p className="text-gray-400 font-mono text-sm mb-2"> */}
+                  {/*       Arraste imagens aqui ou clique para selecionar */}
+                  {/*     </p> */}
+                  {/*     <p className="text-gray-600 text-xs"> */}
+                  {/*       Máximo 3 imagens • PNG, JPG até 5MB cada */}
+                  {/*     </p> */}
+                  {/*     <input */}
+                  {/*       ref={fileInputRef} */}
+                  {/*       type="file" */}
+                  {/*       multiple */}
+                  {/*       accept="image/*" */}
+                  {/*       onChange={(e) => handleFileUpload(e.target.files)} */}
+                  {/*       className="hidden" */}
+                  {/*     /> */}
+                  {/*     <button */}
+                  {/*       type="button" */}
+                  {/*       onClick={() => fileInputRef.current?.click()} */}
+                  {/*       className="mt-4 px-6 py-2 border border-gray-700 hover:border-red-500 text-gray-400 hover:text-red-500 transition-all duration-300 font-mono text-sm" */}
+                  {/*     > */}
+                  {/*       SELECIONAR ARQUIVOS */}
+                  {/*     </button> */}
+                  {/*   </div> */}
 
-                    <div
-                      className={`border-2 border-dashed transition-all duration-300 p-8 text-center ${
-                        dragActive
-                          ? "border-red-500 bg-red-500/10"
-                          : "border-gray-700 hover:border-gray-600"
-                      }`}
-                      onDragEnter={handleDrag}
-                      onDragLeave={handleDrag}
-                      onDragOver={handleDrag}
-                      onDrop={handleDrop}
-                    >
-                      <Upload
-                        className="mx-auto mb-4 text-gray-500"
-                        size={32}
-                      />
-                      <p className="text-gray-400 font-mono text-sm mb-2">
-                        Arraste imagens aqui ou clique para selecionar
-                      </p>
-                      <p className="text-gray-600 text-xs">
-                        Máximo 3 imagens • PNG, JPG até 5MB cada
-                      </p>
-                      <input
-                        ref={fileInputRef}
-                        type="file"
-                        multiple
-                        accept="image/*"
-                        onChange={(e) => handleFileUpload(e.target.files)}
-                        className="hidden"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => fileInputRef.current?.click()}
-                        className="mt-4 px-6 py-2 border border-gray-700 hover:border-red-500 text-gray-400 hover:text-red-500 transition-all duration-300 font-mono text-sm"
-                      >
-                        SELECIONAR ARQUIVOS
-                      </button>
-                    </div>
-
-                    {/* Preview das imagens */}
-                    {referenceImages.length > 0 && (
-                      <div className="grid grid-cols-3 gap-4 mt-4">
-                        {referenceImages.map((file, index) => (
-                          <div key={index} className="relative group">
-                            <img
-                              src={URL.createObjectURL(file)}
-                              alt={`Referência ${index + 1}`}
-                              className="w-full h-24 object-cover border border-gray-700 rounded"
-                            />
-                            <button
-                              type="button"
-                              onClick={() => removeImage(index)}
-                              className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 hover:bg-red-600 rounded-full flex items-center justify-center text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity"
-                            >
-                              <X size={12} />
-                            </button>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
+                  {/*   {referenceImages.length > 0 && ( */}
+                  {/*     <div className="grid grid-cols-3 gap-4 mt-4"> */}
+                  {/*       {referenceImages.map((file, index) => ( */}
+                  {/*         <div key={index} className="relative group"> */}
+                  {/*           <img */}
+                  {/*             src={URL.createObjectURL(file)} */}
+                  {/*             alt={`Referência ${index + 1}`} */}
+                  {/*             className="w-full h-24 object-cover border border-gray-700 rounded" */}
+                  {/*           /> */}
+                  {/*           <button */}
+                  {/*             type="button" */}
+                  {/*             onClick={() => removeImage(index)} */}
+                  {/*             className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 hover:bg-red-600 rounded-full flex items-center justify-center text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity" */}
+                  {/*           > */}
+                  {/*             <X size={12} /> */}
+                  {/*           </button> */}
+                  {/*         </div> */}
+                  {/*       ))} */}
+                  {/*     </div> */}
+                  {/*   )} */}
+                  {/* </div> */}
                 </div>
               )}
 
@@ -714,14 +689,27 @@ export default function BookingPage() {
                       <Controller
                         name="preferredDate"
                         control={control}
-                        render={({ field }) => (
-                          <input
-                            {...field}
-                            type="date"
-                            min={new Date().toISOString().split("T")[0]}
-                            className="w-full bg-black/50 border border-gray-700 focus:border-red-500 px-4 py-3 text-white transition-all duration-300 font-mono text-sm"
-                          />
-                        )}
+                        render={({ field }) => {
+                          const today = new Date();
+                          const maxYear = today.getFullYear() + 2;
+
+                          return (
+                            <div className="relative">
+                              <input
+                                type="date"
+                                {...field}
+                                min={today.toISOString().split("T")[0]}
+                                max={`${maxYear}-12-31`}
+                                onKeyDown={(e) => e.preventDefault()}
+                                onPaste={(e) => e.preventDefault()}
+                                onClick={(e) => {
+                                  (e.target as HTMLInputElement).showPicker?.();
+                                }}
+                                className="w-full bg-black/50 border border-gray-700 focus:border-red-500 px-4 py-3 text-white transition-all duration-300 font-mono text-sm cursor-pointer"
+                              />
+                            </div>
+                          );
+                        }}
                       />
                     </FormField>
 
@@ -917,7 +905,7 @@ export default function BookingPage() {
                       <h3 className="font-mono text-red-500 tracking-[2px] text-sm">
                         DESCRIÇÃO
                       </h3>
-                      <p className="text-sm text-gray-300 leading-relaxed">
+                      <p className="text-sm text-gray-300 leading-relaxed wrap-break-word">
                         {watch("description")}
                       </p>
                       {referenceImages.length > 0 && (

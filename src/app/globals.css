@@ -6,6 +6,7 @@
     cursor: none;
     background: #000000;
     color: #ffffff;
+    scroll-behavior: smooth;
   }
 }
 
@@ -72,6 +73,14 @@
 
   .animate-line-grow-delayed {
     animation: lineGrow 1s ease-out 2.2s both;
+  }
+
+  .animate-pulse-subtle {
+    animation: pulse-subtle 3s ease-in-out infinite;
+  }
+
+  .animate-glow {
+    animation: glow 4s ease-in-out infinite;
   }
 }
 
@@ -156,5 +165,31 @@
   }
   100% {
     stroke-dashoffset: 0;
+  }
+}
+
+@keyframes pulse-subtle {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.02);
+    opacity: 1;
+  }
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    border-color: rgb(31, 41, 55);
+    box-shadow: none;
+    color: rgb(156, 163, 175);
+  }
+  50% {
+    border-color: rgb(239, 68, 68);
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+    color: rgb(239, 68, 68);
   }
 }

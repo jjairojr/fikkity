@@ -4,7 +4,7 @@ const SPECIALTIES_DATA = [
   {
     name: "Blackwork",
     description:
-      "Tatuagens em preto sólido com contrastes marcantes e designs geométricos.",
+      "Tatuagens em preto sólido com contrastes marcantes, preenchimentos sólidos, rastelado e rachuras.",
     keywords: ["blackwork", "tatuagem preta", "aesthetic", "cyber tribal"],
     icon: (
       <svg viewBox="0 0 24 24" className="w-8 h-8" aria-hidden="true">
@@ -40,7 +40,7 @@ const SPECIALTIES_DATA = [
   {
     name: "Oriental",
     description:
-      "Arte tradicional oriental com elementos culturais autênticos. Dragões, carpas, flores de cerejeira e símbolos orientais.",
+      "Arte tradicional oriental com elementos culturais autênticos. dragões, yokais, gueixas, samurais, flores de cerejeira e símbolos com história e significado.",
     keywords: ["tatuagem oriental", "dragao", "carpa", "flor cerejeira"],
     icon: (
       <svg viewBox="0 0 24 24" className="w-8 h-8" aria-hidden="true">
@@ -88,79 +88,90 @@ export function Specialties() {
   };
 
   return (
-    <section
-      className="py-20 px-8 border-t border-gray-900"
-      aria-label={`Especialidades da tatuadora ${BUSINESS_INFO.name}`}
-    >
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(specialtiesSchema) }}
-      />
+    <>
+      <section
+        className="py-20 px-8 border-t border-gray-900"
+        aria-label={`Especialidades da tatuadora ${BUSINESS_INFO.name}`}
+      >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(specialtiesSchema),
+          }}
+        />
 
-      <div className="max-w-4xl mx-auto">
-        <header className="text-center mb-16">
-          <h2 className="text-3xl font-thin tracking-[6px] font-mono mb-4 text-white">
-            ESPECIALIDADES
-          </h2>
-          <div className="w-20 h-px bg-red-500 mx-auto"></div>
-          <p className="text-gray-400 text-sm mt-4 max-w-2xl mx-auto">
-            Conheça os estilos de tatuagem em que a {BUSINESS_INFO.name} é
-            especialista
-          </p>
-        </header>
+        <div className="max-w-4xl mx-auto">
+          <header className="text-center mb-16">
+            <h2 className="text-3xl font-thin tracking-[6px] font-mono mb-4 text-white">
+              ESPECIALIDADES
+            </h2>
+            <div className="w-20 h-px bg-red-500 mx-auto"></div>
+            <p className="text-gray-400 text-sm mt-4 max-w-2xl mx-auto">
+              Conheça os estilos de tatuagem em que a {BUSINESS_INFO.name} é
+              especialista
+            </p>
+          </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {SPECIALTIES_DATA.map((specialty, index) => (
-            <article
-              key={specialty.name}
-              className="text-center group"
-              style={{ animationDelay: `${index * 0.2}s` }}
-              itemScope
-              itemType="https://schema.org/Service"
-            >
-              <div className="w-20 h-20 mx-auto mb-4 border border-gray-800 rounded-full flex items-center justify-center transition-all duration-300 group-hover:border-red-500 group-hover:shadow-[0_0_20px_rgba(239,68,68,0.3)] bg-black/20 backdrop-blur-sm text-gray-400 group-hover:text-red-500">
-                {specialty.icon}
-              </div>
-
-              <h3
-                className="text-sm tracking-[2px] uppercase font-mono text-gray-400 group-hover:text-red-500 transition-colors mb-2"
-                itemProp="name"
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {SPECIALTIES_DATA.map((specialty, index) => (
+              <article
+                key={specialty.name}
+                className="text-center group"
+                style={{
+                  animationDelay: `${index * 0.8}s`,
+                }}
+                itemScope
+                itemType="https://schema.org/Service"
               >
-                {specialty.name}
-              </h3>
+                <div
+                  className="w-20 h-20 mx-auto mb-4 border border-gray-800 rounded-full flex items-center justify-center transition-all duration-300 hover:border-red-500 hover:shadow-[0_0_20px_rgba(239,68,68,0.3)] bg-black/20 backdrop-blur-sm text-gray-400 hover:text-red-500 animate-glow"
+                  style={{
+                    animationDelay: `${index * 1.2}s`,
+                  }}
+                >
+                  {specialty.icon}
+                </div>
 
-              <p
-                className="text-xs text-gray-500 leading-relaxed max-w-xs mx-auto"
-                itemProp="description"
-              >
-                {specialty.description}
-              </p>
+                <h3
+                  className="text-sm tracking-[2px] uppercase font-mono text-gray-400 group-hover:text-red-500 transition-colors mb-2"
+                  itemProp="name"
+                >
+                  {specialty.name}
+                </h3>
 
-              <div className="sr-only">{specialty.keywords.join(", ")}</div>
-            </article>
-          ))}
+                <p
+                  className="text-xs text-gray-500 leading-relaxed max-w-xs mx-auto"
+                  itemProp="description"
+                >
+                  {specialty.description}
+                </p>
+
+                <div className="sr-only">{specialty.keywords.join(", ")}</div>
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-16">
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify({
+                  "@context": "https://schema.org",
+                  "@type": "FAQPage",
+                  mainEntity: SPECIALTIES_DATA.map((specialty) => ({
+                    "@type": "Question",
+                    name: `O que é tatuagem ${specialty.name}?`,
+                    acceptedAnswer: {
+                      "@type": "Answer",
+                      text: specialty.description,
+                    },
+                  })),
+                }),
+              }}
+            />
+          </div>
         </div>
-
-        <div className="mt-16">
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify({
-                "@context": "https://schema.org",
-                "@type": "FAQPage",
-                mainEntity: SPECIALTIES_DATA.map((specialty) => ({
-                  "@type": "Question",
-                  name: `O que é tatuagem ${specialty.name}?`,
-                  acceptedAnswer: {
-                    "@type": "Answer",
-                    text: specialty.description,
-                  },
-                })),
-              }),
-            }}
-          />
-        </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

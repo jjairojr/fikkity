@@ -4,24 +4,6 @@ import z from "zod";
 export const createBookingEmailTemplate = (
   bookingData: z.infer<typeof bookingSchema>,
 ) => {
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("pt-BR", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  };
-
-  const getLocationName = (locationValue: string) => {
-    const locations = {
-      goiania: "Goiânia - Liv Art Studio",
-      curitiba: "Curitiba - Studio Parceiro",
-      saopaulo: "São Paulo - Studio Parceiro",
-    };
-    return locations[locationValue as keyof typeof locations] || locationValue;
-  };
-
   return `
     <!DOCTYPE html>
     <html lang="pt-BR">
@@ -380,7 +362,7 @@ export const createBookingEmailTemplate = (
             <div class="info-grid">
               <div class="info-item">
                 <div class="info-label">Data</div>
-                <div class="info-value">${formatDate(bookingData.preferredDate)}</div>
+                <div class="info-value">${bookingData.preferredDate}</div>
               </div>
               <div class="info-item">
                 <div class="info-label">Horário</div>
@@ -390,7 +372,7 @@ export const createBookingEmailTemplate = (
             
             <div class="info-item" style="margin-top: 16px;">
               <div class="info-label">Local</div>
-              <div class="info-value">${getLocationName(bookingData.location)}</div>
+              <div class="info-value">${bookingData.location}</div>
             </div>
           </div>
           
