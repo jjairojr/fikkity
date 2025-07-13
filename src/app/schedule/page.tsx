@@ -95,7 +95,7 @@ export default function BookingPage() {
   } = useForm<BookingFormData>({
     resolver: zodResolver(bookingSchema),
     mode: "onSubmit",
-    reValidateMode: "onChange",
+    reValidateMode: "onBlur",
     defaultValues: {
       name: "",
       email: "",
@@ -203,14 +203,14 @@ export default function BookingPage() {
     setIsSubmitting(true);
 
     try {
-      const booking = await createBooking(data);
+      await createBooking(data);
 
       await fetch("/api/send-booking-email", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(booking),
+        body: JSON.stringify(data),
       });
 
       setSubmitSuccess(true);
@@ -412,6 +412,17 @@ export default function BookingPage() {
                             type="tel"
                             className="w-full bg-black/50 border border-gray-700 focus:border-red-500 px-4 py-3 text-white placeholder-gray-500 transition-all duration-300 font-mono text-sm"
                             placeholder="(11) 99999-9999"
+                            onChange={(e) => {
+                              const value = e.target.value.replace(
+                                /[^0-9]/g,
+                                "",
+                              );
+                              const formatted = value
+                                .replace(/(\d{2})(\d)/, "($1) $2")
+                                .replace(/(\d{5})(\d)/, "$1-$2")
+                                .slice(0, 15);
+                              field.onChange(formatted);
+                            }}
                           />
                         )}
                       />

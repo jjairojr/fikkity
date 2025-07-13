@@ -146,7 +146,7 @@ export function Location() {
 
                 <div className="flex items-center justify-center text-xs text-gray-500">
                   <Clock size={14} className="mr-2" />
-                  <span>Seg-Sáb: 9h-18h</span>
+                  <span>Seg-Sáb: 10h-18h</span>
                 </div>
               </div>
 
