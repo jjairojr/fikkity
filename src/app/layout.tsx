@@ -37,7 +37,7 @@ export const metadata = {
   openGraph: {
     type: "website",
     locale: "pt_BR",
-    url: "https://fikkity.com.br",
+    url: "https://fikkitytattoo.com.br",
     siteName: "FIKKITY Tattoo",
     title: "FIKKITY - Tatuadora Profissional",
     description:

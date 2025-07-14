@@ -45,7 +45,7 @@ const BUSINESS_SCHEMA = {
   name: "FIKKITY - Tatuadora",
   description:
     "Tatuadora especializada em Blackwork, Fine Line e Oriental em Goiânia, Curitiba e São Paulo",
-  url: "https://fikkity.com.br",
+  url: "https://fikkitytattoo.com.br",
   telephone: "+5562999999999",
   address: [
     {

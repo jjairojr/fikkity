@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: "/api/",
     },
-    sitemap: "https://fikkity.com.br/sitemap.xml",
+    sitemap: "https://fikkitytattoo.com.br/sitemap.xml",
   };
 }

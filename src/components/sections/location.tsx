@@ -43,8 +43,8 @@ export function Location() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: BUSINESS_INFO.fullName,
-    url: "https://fikkity.com.br",
-    logo: "https://fikkity.com.br/logo.png",
+    url: "https://fikkitytattoo.com.br",
+    logo: "https://fikkitytattoo.com.br/logo.png",
     contactPoint: LOCATIONS_DATA.map((location) => ({
       "@type": "ContactPoint",
       telephone: location.phone,
