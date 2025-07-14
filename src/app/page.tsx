@@ -26,7 +26,7 @@ export const metadata: Metadata = {
       "Especialista em Blackwork, Fine Line e Oriental. Confira meu portfólio e agende sua tatuagem em ambiente seguro e profissional.",
     images: [
       {
-        url: "/og-default.png",
+        url: "/og-default.jpg",
         width: 1200,
         height: 630,
         alt: "Portfólio de tatuagens FIKKITY - Blackwork, Fine Line e Oriental",

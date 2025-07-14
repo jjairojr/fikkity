@@ -44,7 +44,7 @@ export const metadata = {
       "Especialista em Blackwork, Fine Line e Oriental. Confira meu portfólio e agende sua tatuagem em ambiente seguro.",
     images: [
       {
-        url: "/og-default.png",
+        url: "/og-default.jpg",
         width: 1200,
         height: 630,
         alt: "FIKKITY - Tatuadora especialista em Blackwork, Fine Line e Oriental",
@@ -55,7 +55,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "FIKKITY - Tatuadora Profissional",
     description: "Especialista em Blackwork, Fine Line e Oriental",
-    images: ["/og-default.png"],
+    images: ["/og-default.jpg"],
   },
   icons: {
     icon: "/favicon.ico",
