@@ -12,11 +12,13 @@ import {
   AlertCircle,
   ArrowLeft,
   Palette,
+  Upload,
+  X,
 } from "lucide-react";
 
 import { FloatingParticles } from "@/components/ui/floating-particles";
 import { bookingSchema, type BookingFormData } from "@/validations/booking";
-import { createBooking } from "@/lib/supabase";
+import { createBooking, createImagesOnStorage } from "@/lib/supabase";
 
 const tattooStyles = [
   "Blackwork",
@@ -173,13 +175,11 @@ export default function BookingPage() {
     const updatedImages = [...referenceImages, ...newFiles].slice(0, 3);
 
     setReferenceImages(updatedImages);
-    setValue("referenceImages", updatedImages);
   };
 
   const removeImage = (index: number) => {
     const updatedImages = referenceImages.filter((_, i) => i !== index);
     setReferenceImages(updatedImages);
-    setValue("referenceImages", updatedImages);
   };
 
   const handleDrag = (e: React.DragEvent) => {
@@ -203,7 +203,13 @@ export default function BookingPage() {
     setIsSubmitting(true);
 
     try {
-      await createBooking(data);
+      const imagesUrlArray = await createImagesOnStorage(referenceImages);
+
+      const dataToSave = {
+        ...data,
+        referenceImages: imagesUrlArray,
+      };
+      await createBooking(dataToSave);
 
       await fetch("/api/send-booking-email", {
         method: "POST",
@@ -614,70 +620,70 @@ export default function BookingPage() {
                     />
                   </FormField>
 
-                  {/* <div> */}
-                  {/*   <label className="block text-sm font-mono tracking-[2px] text-gray-400 mb-4"> */}
-                  {/*     IMAGENS DE REFERÊNCIA (Opcional) */}
-                  {/*   </label> */}
-                  {/**/}
-                  {/*   <div */}
-                  {/*     className={`border-2 border-dashed transition-all duration-300 p-8 text-center ${ */}
-                  {/*       dragActive */}
-                  {/*         ? "border-red-500 bg-red-500/10" */}
-                  {/*         : "border-gray-700 hover:border-gray-600" */}
-                  {/*     }`} */}
-                  {/*     onDragEnter={handleDrag} */}
-                  {/*     onDragLeave={handleDrag} */}
-                  {/*     onDragOver={handleDrag} */}
-                  {/*     onDrop={handleDrop} */}
-                  {/*   > */}
-                  {/*     <Upload */}
-                  {/*       className="mx-auto mb-4 text-gray-500" */}
-                  {/*       size={32} */}
-                  {/*     /> */}
-                  {/*     <p className="text-gray-400 font-mono text-sm mb-2"> */}
-                  {/*       Arraste imagens aqui ou clique para selecionar */}
-                  {/*     </p> */}
-                  {/*     <p className="text-gray-600 text-xs"> */}
-                  {/*       Máximo 3 imagens • PNG, JPG até 5MB cada */}
-                  {/*     </p> */}
-                  {/*     <input */}
-                  {/*       ref={fileInputRef} */}
-                  {/*       type="file" */}
-                  {/*       multiple */}
-                  {/*       accept="image/*" */}
-                  {/*       onChange={(e) => handleFileUpload(e.target.files)} */}
-                  {/*       className="hidden" */}
-                  {/*     /> */}
-                  {/*     <button */}
-                  {/*       type="button" */}
-                  {/*       onClick={() => fileInputRef.current?.click()} */}
-                  {/*       className="mt-4 px-6 py-2 border border-gray-700 hover:border-red-500 text-gray-400 hover:text-red-500 transition-all duration-300 font-mono text-sm" */}
-                  {/*     > */}
-                  {/*       SELECIONAR ARQUIVOS */}
-                  {/*     </button> */}
-                  {/*   </div> */}
+                  <div>
+                    <label className="block text-sm font-mono tracking-[2px] text-gray-400 mb-4">
+                      IMAGENS DE REFERÊNCIA (Opcional)
+                    </label>
 
-                  {/*   {referenceImages.length > 0 && ( */}
-                  {/*     <div className="grid grid-cols-3 gap-4 mt-4"> */}
-                  {/*       {referenceImages.map((file, index) => ( */}
-                  {/*         <div key={index} className="relative group"> */}
-                  {/*           <img */}
-                  {/*             src={URL.createObjectURL(file)} */}
-                  {/*             alt={`Referência ${index + 1}`} */}
-                  {/*             className="w-full h-24 object-cover border border-gray-700 rounded" */}
-                  {/*           /> */}
-                  {/*           <button */}
-                  {/*             type="button" */}
-                  {/*             onClick={() => removeImage(index)} */}
-                  {/*             className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 hover:bg-red-600 rounded-full flex items-center justify-center text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity" */}
-                  {/*           > */}
-                  {/*             <X size={12} /> */}
-                  {/*           </button> */}
-                  {/*         </div> */}
-                  {/*       ))} */}
-                  {/*     </div> */}
-                  {/*   )} */}
-                  {/* </div> */}
+                    <div
+                      className={`border-2 border-dashed transition-all duration-300 p-8 text-center ${
+                        dragActive
+                          ? "border-red-500 bg-red-500/10"
+                          : "border-gray-700 hover:border-gray-600"
+                      }`}
+                      onDragEnter={handleDrag}
+                      onDragLeave={handleDrag}
+                      onDragOver={handleDrag}
+                      onDrop={handleDrop}
+                    >
+                      <Upload
+                        className="mx-auto mb-4 text-gray-500"
+                        size={32}
+                      />
+                      <p className="text-gray-400 font-mono text-sm mb-2">
+                        Arraste imagens aqui ou clique para selecionar
+                      </p>
+                      <p className="text-gray-600 text-xs">
+                        Máximo 3 imagens • PNG, JPG até 5MB cada
+                      </p>
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        multiple
+                        accept="image/*"
+                        onChange={(e) => handleFileUpload(e.target.files)}
+                        className="hidden"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => fileInputRef.current?.click()}
+                        className="mt-4 px-6 py-2 border border-gray-700 hover:border-red-500 text-gray-400 hover:text-red-500 transition-all duration-300 font-mono text-sm"
+                      >
+                        SELECIONAR ARQUIVOS
+                      </button>
+                    </div>
+
+                    {referenceImages.length > 0 && (
+                      <div className="grid grid-cols-3 gap-4 mt-4">
+                        {referenceImages.map((file, index) => (
+                          <div key={index} className="relative group">
+                            <img
+                              src={URL.createObjectURL(file)}
+                              alt={`Referência ${index + 1}`}
+                              className="w-full h-24 object-cover border border-gray-700 rounded"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => removeImage(index)}
+                              className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 hover:bg-red-600 rounded-full flex items-center justify-center text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                              <X size={12} />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
 

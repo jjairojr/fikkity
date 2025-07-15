@@ -27,7 +27,7 @@ export const createBooking = async (data: z.infer<typeof bookingSchema>) => {
         is_first_tattoo: data.isFirstTattoo,
         has_allergies: data.hasAllergies,
         allergies_description: data.allergiesDescription,
-        reference_images: [],
+        reference_images: data.referenceImages || [],
         status: "pending",
       },
     ])
@@ -39,4 +39,33 @@ export const createBooking = async (data: z.infer<typeof bookingSchema>) => {
   }
 
   return booking[0];
+};
+
+export const createImagesOnStorage = async (referenceImages: File[]) => {
+  if (!referenceImages || referenceImages.length === 0) return undefined;
+
+  const imageUrls: string[] = [];
+
+  const now = Date.now();
+
+  for (const file of referenceImages) {
+    const filePath = `reference-images/${now}/${file.name}`;
+    const { data, error } = await supabase.storage
+      .from("reference-images")
+      .upload(filePath, file);
+
+    if (error) {
+      console.error("Erro ao fazer upload da imagem:", error);
+    }
+
+    if (data) {
+      const { data: urlData } = supabase.storage
+        .from("reference-images")
+        .getPublicUrl(filePath);
+
+      imageUrls.push(urlData.publicUrl);
+    }
+  }
+
+  return imageUrls.length > 0 ? imageUrls : undefined;
 };

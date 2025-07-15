@@ -25,7 +25,7 @@ export const bookingSchema = z.object({
   hasAllergies: z.boolean(),
   allergiesDescription: z.string().optional(),
 
-  referenceImages: z.array(z.any()).max(3, "Máximo 3 imagens").optional(),
+  referenceImages: z.array(z.string()).max(3, "Máximo 3 imagens").optional(),
 });
 
 export type BookingFormData = z.infer<typeof bookingSchema>;
