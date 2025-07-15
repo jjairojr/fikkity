@@ -131,7 +131,7 @@ export function HeroSection() {
             aria-label={`Agendar sessão de tatuagem com ${BUSINESS_INFO.name}`}
           >
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-red-500/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
-            <span className="relative z-10">Agendar Sessão</span>
+            <span className="relative z-10">Realizar Orçamento</span>
           </Link>
 
           <Link

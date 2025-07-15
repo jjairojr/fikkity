@@ -75,7 +75,7 @@ const locations = [
 ];
 
 export default function BookingPage() {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(4);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [dragActive, setDragActive] = useState(false);
@@ -967,7 +967,7 @@ export default function BookingPage() {
                       ENVIANDO...
                     </>
                   ) : (
-                    "ENVIAR AGENDAMENTO"
+                    "ENVIAR"
                   )}
                 </button>
               )}
