@@ -75,7 +75,7 @@ const locations = [
 ];
 
 export default function BookingPage() {
-  const [currentStep, setCurrentStep] = useState(4);
+  const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [dragActive, setDragActive] = useState(false);
