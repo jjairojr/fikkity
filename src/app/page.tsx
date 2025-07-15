@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     "fikkity tattoo",
   ],
   openGraph: {
-    title: "FIKKITY - Arte que marca sua alma",
+    title: "FIKKITY - Encaixe perfeito, arte exclusiva e significado.",
     description:
       "Especialista em Blackwork, Fine Line e Oriental. Confira meu portfólio e agende sua tatuagem em ambiente seguro e profissional.",
     images: [

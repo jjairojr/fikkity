@@ -49,7 +49,7 @@ export function HeroSection() {
         </p>
 
         <p className="text-sm text-gray-400 mb-8 max-w-xs mx-auto leading-relaxed opacity-0 animate-fade-in-delayed font-light">
-          Encaixa perfeito, arte exclusiva e significado.
+          Encaixe perfeito, arte exclusiva e significado.
           <br />
           Agende sua
           <span className="text-red-500/80 text-md font-semibold ml-1">
