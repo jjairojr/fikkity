@@ -1,8 +1,6 @@
 "use client";
 
 import Script from "next/script";
-import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
 
 declare global {
   interface Window {
@@ -13,15 +11,6 @@ declare global {
 const PIXEL_ID = process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID;
 
 export function FacebookPixel() {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  useEffect(() => {
-    if (typeof window !== "undefined" && window.fbq) {
-      window.fbq("track", "PageView");
-    }
-  }, [pathname, searchParams]);
-
   return (
     <>
       <Script
