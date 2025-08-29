@@ -11,22 +11,26 @@ declare global {
 
 const PIXEL_ID = process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID;
 
-function FacebookPixelTracker() {
+function FacebookPixelContent() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    if (typeof window !== "undefined" && window.fbq) {
-      console.log("Tracking page view:", pathname + searchParams.toString());
-      window.fbq("track", "PageView");
+    if (!PIXEL_ID || typeof window === "undefined" || !window.fbq) {
+      return;
     }
+
+    const url =
+      pathname + (searchParams.toString() ? `?${searchParams.toString()}` : "");
+    console.log("Tracking page view:", url);
+
+    window.fbq("track", "PageView");
   }, [pathname, searchParams]);
 
-  return null;
-}
-
-export function FacebookPixel() {
-  console.log("PIXEL_ID:", PIXEL_ID);
+  if (!PIXEL_ID) {
+    console.warn("Facebook Pixel ID não encontrado");
+    return null;
+  }
 
   return (
     <>
@@ -44,12 +48,11 @@ export function FacebookPixel() {
             s.parentNode.insertBefore(t,s)}(window, document,'script',
             'https://connect.facebook.net/en_US/fbevents.js');
             fbq('init', '${PIXEL_ID}');
-            fbq('track', 'PageView');
           `,
         }}
       />
+
       <noscript>
-        {/* Using next/image is not appropriate for tracking pixels */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           alt=""
@@ -59,10 +62,14 @@ export function FacebookPixel() {
           src={`https://www.facebook.com/tr?id=${PIXEL_ID}&ev=PageView&noscript=1`}
         />
       </noscript>
-
-      <Suspense fallback={null}>
-        <FacebookPixelTracker />
-      </Suspense>
     </>
+  );
+}
+
+export function FacebookPixel() {
+  return (
+    <Suspense fallback={null}>
+      <FacebookPixelContent />
+    </Suspense>
   );
 }
