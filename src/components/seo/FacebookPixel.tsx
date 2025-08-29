@@ -1,6 +1,7 @@
 "use client";
-
 import Script from "next/script";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useEffect, Suspense } from "react";
 
 declare global {
   interface Window {
@@ -10,7 +11,23 @@ declare global {
 
 const PIXEL_ID = process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID;
 
+function FacebookPixelTracker() {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.fbq) {
+      console.log("Tracking page view:", pathname + searchParams.toString());
+      window.fbq("track", "PageView");
+    }
+  }, [pathname, searchParams]);
+
+  return null;
+}
+
 export function FacebookPixel() {
+  console.log("PIXEL_ID:", PIXEL_ID);
+
   return (
     <>
       <Script
@@ -31,16 +48,21 @@ export function FacebookPixel() {
           `,
         }}
       />
-
       <noscript>
+        {/* Using next/image is not appropriate for tracking pixels */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          alt="fb_pixel"
+          alt=""
           height="1"
           width="1"
           style={{ display: "none" }}
           src={`https://www.facebook.com/tr?id=${PIXEL_ID}&ev=PageView&noscript=1`}
         />
       </noscript>
+
+      <Suspense fallback={null}>
+        <FacebookPixelTracker />
+      </Suspense>
     </>
   );
 }
