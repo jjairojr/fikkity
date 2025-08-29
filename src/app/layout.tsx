@@ -2,6 +2,7 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { Background } from "@/components/layout/background";
 import { Cursor } from "@/components/layout/cursor";
+import { FacebookPixel } from "@/components/seo/FacebookPixel";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -77,6 +78,7 @@ export default function RootLayout({
         <Cursor />
 
         {children}
+        <FacebookPixel />
       </body>
     </html>
   );
