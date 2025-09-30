@@ -6,33 +6,23 @@ const LOCATIONS_DATA = [
     city: "Goiânia",
     state: "GO",
     region: "Centro-Oeste",
-    studio: "Liv Art Studio - Goiânia",
-    address: "Av. Transbrasiliana, Quadra 200 - Lote 27 - Setor Pedro Ludovico",
+    studio: "Fikkity Studio - Goiânia",
+    address: "Al. Ricardo Paranhos - Setor Marista",
     postalCode: "74000-000",
-    phone: "(62) 99637-1308",
+    phone: "(62) 98315-2514",
     coordinates: { lat: "-16.6869", lng: "-49.2648" },
     neighborhoods: ["Centro", "Setor Bueno", "Setor Oeste"],
   },
-  {
-    city: "Curitiba",
-    state: "PR",
-    region: "Sul",
-    studio: "Liv Art Studio - Curitiba",
-    address: "R. Brg. Franco, 419 - Mercês",
-    postalCode: "80000-000",
-    phone: "(41) 98531-7771",
-    coordinates: { lat: "-25.4284", lng: "-49.2733" },
-    neighborhoods: ["Centro", "Batel", "Água Verde"],
-  },
+
   {
     city: "São Paulo",
     state: "SP",
     region: "Sudeste",
-    studio: "Liv Art Studio - São Paulo",
-    address:
-      "Edifício E Office Berrini – Av. Eng. Luis Carlos Berrini, 1748 Sala 808 – Brooklin",
+    studio: "Eternal Art Gallery - São Paulo",
+    address: "Pinheiro - Fradique Coutinho",
     postalCode: "01000-000",
-    phone: "(62) 99637-1308",
+    phone: "(62) 98315-2514",
+
     coordinates: { lat: "-23.5505", lng: "-46.6333" },
     neighborhoods: ["Brooklin", "Pinheiros", "Itaim Bibi"],
   },
@@ -156,6 +146,7 @@ export function Location() {
                 <p className="text-xs text-gray-500">
                   {location.neighborhoods.join(" • ")}
                 </p>
+                <p className="text-xs text-gray-500">e mais.</p>
               </div>
 
               {/* Coordenadas para SEO */}
@@ -186,9 +177,9 @@ export function Location() {
 
           {/* Keywords para SEO local */}
           <div className="sr-only">
-            tatuadora goiania, tatuagem curitiba, tattoo sao paulo, estudio
-            tatuagem goias, tatuadora parana, tatuagem sp, blackwork goiania,
-            fine line curitiba, oriental sao paulo
+            tatuadora goiania, tattoo sao paulo, estudio tatuagem goias,
+            tatuadora parana, tatuagem sp, blackwork goiania, fine line sao
+            paulo, oriental sao paulo
           </div>
         </div>
       </div>

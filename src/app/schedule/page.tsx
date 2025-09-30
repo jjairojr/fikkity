@@ -65,14 +65,13 @@ const timeSlots = [
 const locations = [
   {
     value: "goiania",
-    label: "Goiânia - Liv Art Studio",
-    address: "Setor Pedro Ludovico",
+    label: "Goiânia",
+    address: "Al. Ricardo Paranhos",
   },
-  { value: "curitiba", label: "Curitiba - Liv Art Studio", address: "Mercês" },
   {
     value: "saopaulo",
-    label: "São Paulo - Liv Art Studio",
-    address: "Brooklin",
+    label: "São Paulo - Eternal Art Gallery",
+    address: "Pinheiro - Fradique Coutinho",
   },
 ];
 
@@ -590,12 +589,19 @@ export default function BookingPage() {
                             className="w-full bg-black/50 border border-gray-700 focus:border-red-500 px-4 py-3 text-white transition-all duration-300 font-mono text-sm"
                           >
                             <option value="">Selecione a faixa</option>
-                            <option value="200-500">R$ 200 - R$ 500</option>
-                            <option value="500-1000">R$ 500 - R$ 1.000</option>
-                            <option value="1000-2000">
-                              R$ 1.000 - R$ 2.000
+                            <option value="500-800">R$ 500 - R$ 800</option>
+                            <option value="800-1500">R$ 800 - R$ 1.500</option>
+                            <option value="1500-3000">
+                              R$ 1.500 - R$ 3.000
                             </option>
-                            <option value="2000+">R$ 2.000+</option>
+                            <option value="3000-6000">
+                              R$ 3.000 - R$ 6.000
+                            </option>
+                            <option value="6000-8000">
+                              R$ 6.000 - R$ 8.000
+                            </option>
+
+                            <option value="8000+">R$ 8.000+</option>
                           </select>
                         )}
                       />

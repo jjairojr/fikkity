@@ -409,7 +409,7 @@ export const createBookingEmailTemplate = (
           <div class="divider"></div>
           
           <div class="footer-contact">
-            <h4>LIV ART STUDIO</h4>
+            <h4>FIKKITY STUDIO</h4>
             <p>contato@jairas.dev</p>
             <p>(62) 99999-9999</p>
             <p>Setor Bueno, Goiânia - GO</p>

@@ -50,7 +50,7 @@ const BUSINESS_SCHEMA = {
   address: [
     {
       "@type": "PostalAddress",
-      streetAddress: "Liv Art Studio",
+      streetAddress: "Fikkity Studio",
       addressLocality: "Goiânia",
       addressRegion: "GO",
       postalCode: "74000-000",
@@ -58,15 +58,7 @@ const BUSINESS_SCHEMA = {
     },
     {
       "@type": "PostalAddress",
-      streetAddress: "Liv Art Studio",
-      addressLocality: "Curitiba",
-      addressRegion: "PR",
-      postalCode: "80000-000",
-      addressCountry: "BR",
-    },
-    {
-      "@type": "PostalAddress",
-      streetAddress: "Liv Art Studio",
+      streetAddress: "Fikkity Studio",
       addressLocality: "São Paulo",
       addressRegion: "SP",
       postalCode: "01000-000",
