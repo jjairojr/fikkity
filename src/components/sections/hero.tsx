@@ -49,12 +49,9 @@ export function HeroSection() {
         </p>
 
         <p className="text-sm text-gray-400 mb-8 max-w-xs mx-auto leading-relaxed opacity-0 animate-fade-in-delayed font-light">
-          Encaixe perfeito, arte exclusiva e significado.
+          Estética autoral, encaixe inteligente,
           <br />
-          Agende sua
-          <span className="text-red-500/80 text-md font-semibold ml-1">
-            TATTOO.
-          </span>
+          Feita para você.
         </p>
 
         <div className="flex justify-center gap-8 mb-16 opacity-0 animate-fade-in-delayed-2">

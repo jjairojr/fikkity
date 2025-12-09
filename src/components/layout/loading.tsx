@@ -6,7 +6,7 @@ export function Loading() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoaded(true), 1500);
+    const timer = setTimeout(() => setIsLoaded(true), 250);
     return () => clearTimeout(timer);
   }, []);
 

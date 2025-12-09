@@ -52,23 +52,23 @@
   }
 
   .animate-slide-in-delayed {
-    animation: slideIn 1s ease-out 1.2s both;
+    animation: slideIn 1s ease-out 0.2s both;
   }
 
   .animate-fade-in-delayed {
-    animation: fadeIn 1s ease-out 1.5s both;
+    animation: fadeIn 1s ease-out 0.5s both;
   }
 
   .animate-fade-in-delayed-2 {
-    animation: fadeIn 1s ease-out 1.8s both;
+    animation: fadeIn 1s ease-out 0.8s both;
   }
 
   .animate-fade-in-delayed-3 {
-    animation: fadeIn 1s ease-out 2.1s both;
+    animation: fadeIn 1s ease-out 1.1s both;
   }
 
   .animate-line-grow {
-    animation: lineGrow 1s ease-out 2s both;
+    animation: lineGrow 1s ease-out 1s both;
   }
 
   .animate-line-grow-delayed {
