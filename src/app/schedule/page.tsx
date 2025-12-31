@@ -19,6 +19,7 @@ import {
 import { FloatingParticles } from "@/components/ui/floating-particles";
 import { bookingSchema, type BookingFormData } from "@/validations/booking";
 import { createBooking, createImagesOnStorage } from "@/lib/supabase";
+import { createInkaiQuote } from "@/lib/inkai";
 
 const tattooStyles = [
   "Blackwork",
@@ -208,7 +209,13 @@ export default function BookingPage() {
         ...data,
         referenceImages: imagesUrlArray,
       };
-      await createBooking(dataToSave);
+
+      await Promise.all([
+        createBooking(dataToSave),
+        createInkaiQuote(data, referenceImages).catch((err) => {
+          console.error("Inkai quote creation failed:", err);
+        }),
+      ]);
 
       await fetch("/api/send-booking-email", {
         method: "POST",
