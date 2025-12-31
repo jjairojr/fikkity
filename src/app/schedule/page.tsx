@@ -203,11 +203,11 @@ export default function BookingPage() {
     setIsSubmitting(true);
 
     try {
-      // const imagesUrlArray = await createImagesOnStorage(referenceImages);
+      const imagesUrlArray = await createImagesOnStorage(referenceImages);
 
       const dataToSave = {
         ...data,
-        referenceImages: [],
+        referenceImages: imagesUrlArray,
       };
 
       await Promise.all([
