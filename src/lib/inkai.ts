@@ -30,7 +30,7 @@ export const createInkaiQuote = async (
     body_part: data.bodyPart,
     size: data.size || undefined,
     description: data.description || undefined,
-    budget: data.budget || "",
+    budget: data.budget || "1000",
     preferred_date: data.preferredDate ? new Date(data.preferredDate).toISOString() : undefined,
     preferred_time: data.preferredDate && data.preferredTime
       ? new Date(`${data.preferredDate}T${data.preferredTime}:00`).toISOString()

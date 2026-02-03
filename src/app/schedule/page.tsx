@@ -14,6 +14,8 @@ import {
   Palette,
   Upload,
   X,
+  MessageCircle,
+  RefreshCw,
 } from "lucide-react";
 
 import { FloatingParticles } from "@/components/ui/floating-particles";
@@ -80,6 +82,7 @@ export default function BookingPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
   const [dragActive, setDragActive] = useState(false);
   const [referenceImages, setReferenceImages] = useState<File[]>([]);
 
@@ -92,7 +95,6 @@ export default function BookingPage() {
     handleSubmit,
     watch,
     trigger,
-    setValue,
     formState: { errors },
   } = useForm<BookingFormData>({
     resolver: zodResolver(bookingSchema),
@@ -201,8 +203,11 @@ export default function BookingPage() {
 
   const onSubmit = async (data: BookingFormData) => {
     setIsSubmitting(true);
+    setSubmitError(false);
 
     try {
+      await createInkaiQuote(data, referenceImages);
+
       const imagesUrlArray = await createImagesOnStorage(referenceImages);
 
       const dataToSave = {
@@ -210,12 +215,7 @@ export default function BookingPage() {
         referenceImages: imagesUrlArray,
       };
 
-      await Promise.all([
-        createBooking(dataToSave),
-        createInkaiQuote(data, referenceImages).catch((err) => {
-          console.error("Inkai quote creation failed:", err);
-        }),
-      ]);
+      await createBooking(dataToSave);
 
       await fetch("/api/send-booking-email", {
         method: "POST",
@@ -228,6 +228,7 @@ export default function BookingPage() {
       setSubmitSuccess(true);
     } catch (error) {
       console.error("Erro ao enviar:", error);
+      setSubmitError(true);
     } finally {
       setIsSubmitting(false);
     }
@@ -257,6 +258,84 @@ export default function BookingPage() {
       )}
     </div>
   );
+
+  const formData = watch();
+
+  const generateWhatsAppUrl = () => {
+    const phone = "5562999999999";
+    const locationLabel = locations.find((loc) => loc.value === formData.location)?.label || formData.location;
+    const message = `Olá! Gostaria de agendar uma tatuagem.
+
+*Dados Pessoais:*
+Nome: ${formData.name}
+Email: ${formData.email}
+Telefone: ${formData.phone}
+Idade: ${formData.age} anos
+
+*Tatuagem:*
+Estilo: ${formData.style}
+Local do corpo: ${formData.bodyPart}
+Tamanho: ${formData.size}
+${formData.budget ? `Orçamento: R$ ${formData.budget}` : ""}
+
+*Descrição:*
+${formData.description}
+
+*Agendamento:*
+Data preferida: ${formData.preferredDate ? new Date(formData.preferredDate).toLocaleDateString("pt-BR") : ""}
+Horário: ${formData.preferredTime}
+Local: ${locationLabel}`;
+
+    return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+  };
+
+  if (submitError) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center px-8">
+        <FloatingParticles />
+        <div className="text-center max-w-md mx-auto relative z-10">
+          <div className="w-20 h-20 mx-auto mb-8 bg-red-500/20 rounded-full flex items-center justify-center">
+            <AlertCircle size={40} className="text-red-500" />
+          </div>
+          <h1 className="text-3xl font-mono tracking-[4px] mb-4 text-white">
+            ERRO NO ENVIO
+          </h1>
+          <p className="text-gray-400 mb-8 leading-relaxed">
+            Ocorreu um erro ao enviar seu agendamento. Por favor, tente novamente
+            ou entre em contato via WhatsApp.
+          </p>
+          <div className="flex flex-col gap-4">
+            <button
+              onClick={() => {
+                setSubmitError(false);
+                handleSubmit(onSubmit)();
+              }}
+              className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-red-500 hover:bg-red-600 text-white transition-all duration-300 font-mono tracking-[2px] text-sm"
+            >
+              <RefreshCw size={16} />
+              TENTAR NOVAMENTE
+            </button>
+            <a
+              href={generateWhatsAppUrl()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-8 py-3 border border-green-500 text-green-500 hover:bg-green-500/10 transition-all duration-300 font-mono tracking-[2px] text-sm"
+            >
+              <MessageCircle size={16} />
+              ENVIAR VIA WHATSAPP
+            </a>
+            <Link
+              href="/"
+              className="inline-flex items-center justify-center gap-2 px-8 py-3 border border-gray-700 text-gray-400 hover:border-gray-600 hover:text-white transition-all duration-300 font-mono tracking-[2px] text-sm"
+            >
+              <ArrowLeft size={16} />
+              VOLTAR AO INÍCIO
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (submitSuccess) {
     return (
