@@ -95,6 +95,7 @@ export default function BookingPage() {
     handleSubmit,
     watch,
     trigger,
+    getValues,
     formState: { errors },
   } = useForm<BookingFormData>({
     resolver: zodResolver(bookingSchema),
@@ -259,31 +260,30 @@ export default function BookingPage() {
     </div>
   );
 
-  const formData = watch();
-
   const generateWhatsAppUrl = () => {
     const phone = "5562999999999";
-    const locationLabel = locations.find((loc) => loc.value === formData.location)?.label || formData.location;
+    const data = getValues();
+    const locationLabel = locations.find((loc) => loc.value === data.location)?.label || data.location;
     const message = `Olá! Gostaria de agendar uma tatuagem.
 
 *Dados Pessoais:*
-Nome: ${formData.name}
-Email: ${formData.email}
-Telefone: ${formData.phone}
-Idade: ${formData.age} anos
+Nome: ${data.name}
+Email: ${data.email}
+Telefone: ${data.phone}
+Idade: ${data.age} anos
 
 *Tatuagem:*
-Estilo: ${formData.style}
-Local do corpo: ${formData.bodyPart}
-Tamanho: ${formData.size}
-${formData.budget ? `Orçamento: R$ ${formData.budget}` : ""}
+Estilo: ${data.style}
+Local do corpo: ${data.bodyPart}
+Tamanho: ${data.size}
+${data.budget ? `Orçamento: R$ ${data.budget}` : ""}
 
 *Descrição:*
-${formData.description}
+${data.description}
 
 *Agendamento:*
-Data preferida: ${formData.preferredDate ? new Date(formData.preferredDate).toLocaleDateString("pt-BR") : ""}
-Horário: ${formData.preferredTime}
+Data preferida: ${data.preferredDate ? new Date(data.preferredDate).toLocaleDateString("pt-BR") : ""}
+Horário: ${data.preferredTime}
 Local: ${locationLabel}`;
 
     return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
